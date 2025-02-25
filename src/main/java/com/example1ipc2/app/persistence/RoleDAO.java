@@ -39,7 +39,7 @@ public class RoleDAO extends CrudDAO<RoleModel> {
     }
 
     @Override
-    public RoleModel findById(Long id) throws SQLException {
+    public RoleModel findById(Integer id) throws SQLException {
         String sql = "SELECT * FROM role WHERE id = ?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -56,13 +56,13 @@ public class RoleDAO extends CrudDAO<RoleModel> {
     @Override
     public List<RoleModel> findAll() throws SQLException {
         List<RoleModel> roles = new ArrayList<>();
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM role";
         try (Connection conn = DBConnection.getConnection(); 
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
-                roles.add(new RoleModel());
+                System.out.println(rs.getString("role_name"));
+                roles.add(new RoleModel(rs.getInt("id"), rs.getString("role_name"), rs.getString("description")));
             }
         }
         return roles;
@@ -83,7 +83,7 @@ public class RoleDAO extends CrudDAO<RoleModel> {
     }
 
     @Override
-    public void delete(Long id) throws SQLException {
+    public void delete(Integer id) throws SQLException {
         // TODO: logica para eliminar roles
     }
 

@@ -30,6 +30,25 @@ public class UserModel {
         this.roleId = roleId;
     }
 
+    public UserModel(Integer id, String name, String email, String address, String dpi, String password, Integer roleId, String state, Date createAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.dpi = dpi;
+        this.password = password;
+        this.roleId = roleId;
+        this.state = state;
+        this.createAt = createAt;
+    }
+    
+    
+
+    @Override
+    public String toString() {
+        return "UserModel{" + "id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + ", dpi=" + dpi + ", password=" + password + ", roleId=" + roleId + ", state=" + state + ", createAt=" + createAt + '}';
+    }
+    
     
     public Integer getId() {
         return id;

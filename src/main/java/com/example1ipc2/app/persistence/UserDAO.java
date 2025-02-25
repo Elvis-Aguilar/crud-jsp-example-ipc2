@@ -41,20 +41,23 @@ public class UserDAO extends CrudDAO<UserModel> {
     }
 
     @Override
-    public UserModel findById(Long id) throws SQLException {
-        String sql = "SELECT * FROM users WHERE id = ?";
+    public UserModel findById(Integer id) throws SQLException {
+        String sql = "SELECT * FROM user WHERE id = ?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new UserModel(
+                            rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("address"),
                             rs.getString("dpi"),
                             rs.getString("password"),
-                            rs.getInt("role_id")
+                            rs.getInt("role_id"),
+                            rs.getString("state"),
+                            rs.getDate("created_at")
                     );
                 }
             }
@@ -65,17 +68,20 @@ public class UserDAO extends CrudDAO<UserModel> {
     @Override
     public List<UserModel> findAll() throws SQLException {
         List<UserModel> users = new ArrayList<>();
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM user";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 users.add(new UserModel(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("address"),
                         rs.getString("dpi"),
                         rs.getString("password"),
-                        rs.getInt("role_id")
+                        rs.getInt("role_id"),
+                        rs.getString("state"),
+                        rs.getDate("created_at")
                 ));
             }
         }
@@ -84,7 +90,7 @@ public class UserDAO extends CrudDAO<UserModel> {
 
     @Override
     public void update(UserModel entity) throws SQLException {
-        String sql = "UPDATE users SET name = ?, email = ?, address = ?, dpi = ?, password = ?, role_id = ? WHERE id = ?";
+        String sql = "UPDATE user SET name = ?, email = ?, address = ?, dpi = ?, password = ?, role_id = ?, state = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, entity.getName());
@@ -93,15 +99,16 @@ public class UserDAO extends CrudDAO<UserModel> {
             stmt.setString(4, entity.getDpi());
             stmt.setString(5, entity.getPassword());
             stmt.setInt(6, entity.getRoleId());
-            stmt.setInt(7, entity.getId());
+            stmt.setString(7, entity.getState());
+            stmt.setInt(8, entity.getId());
 
             stmt.executeUpdate();
         }
     }
 
     @Override
-    public void delete(Long id) throws SQLException {
-        String sql = "DELETE FROM users WHERE id = ?";
+    public void delete(Integer id) throws SQLException {
+        String sql = "DELETE FROM user WHERE id = ?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);

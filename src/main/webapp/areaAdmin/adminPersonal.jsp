@@ -4,21 +4,32 @@
     Author     : elvis
 --%>
 
+<%@page import="com.example1ipc2.app.model.RoleModel"%>
+<%@page import="java.util.List"%>
 <%
     String view = request.getParameter("view");
-    if (view == null) {
-        view = "dash"; 
+
+    if ("create".equals(view) && request.getAttribute("roles") == null) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("RoleServlet");
+        dispatcher.forward(request, response);
+    }
+
+    if ("list".equals(view) && request.getAttribute("users") == null) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("UserServlet");
+        dispatcher.forward(request, response);
     }
 %>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Administración de Usuarios</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="flex h-screen bg-gray-100">
 
@@ -63,7 +74,8 @@
                     <% if ("create".equals(view)) { %> 
                     <div class="mb-8">
                         <h3 class="text-xl font-bold mb-3">Crear Nuevo Usuario</h3>
-                        <form action="crearUsuario.jsp" method="post" class="bg-gray-100 p-4 rounded-lg">
+                        <form class="bg-gray-100 p-4 rounded-lg"
+                              action="UserServlet" method="POST">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-gray-700">Nombre</label>
@@ -84,10 +96,11 @@
                                 <div>
                                     <label class="block text-gray-700">Rol</label>
                                     <select name="rolId" class="w-full p-2 border rounded-lg">
-                                        <option value="admin">Administrador</option>
-                                        <option value="editor">Editor</option>
-                                        <option value="usuario">Usuario</option>
+                                        <c:forEach var="role" items="${roles}">
+                                            <option value="${role.id}">${role.name}</option>
+                                        </c:forEach>
                                     </select>
+
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Contraseña</label>
@@ -116,24 +129,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="hover:bg-gray-100">
-                                    <td class="p-2 border">Elvis</td>
-                                    <td class="p-2 border">elvis@email.com</td>
-                                    <td class="p-2 border">Admin</td>
-                                    <td class="p-2 border flex gap-2">
-                                        <a href="editarUsuario.jsp?id=1" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</a>
-                                        <a href="eliminarUsuario.jsp?id=1" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Eliminar</a>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-100">
-                                    <td class="p-2 border">Juan Pérez</td>
-                                    <td class="p-2 border">juan@email.com</td>
-                                    <td class="p-2 border">Editor</td>
-                                    <td class="p-2 border flex gap-2">
-                                        <a href="editarUsuario.jsp?id=2" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</a>
-                                        <a href="eliminarUsuario.jsp?id=2" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Eliminar</a>
-                                    </td>
-                                </tr>
+                                <c:forEach var="user" items="${users}">
+                                    <tr class="hover:bg-gray-100">
+                                        <td class="p-2 border">${user.name}</td>
+                                        <td class="p-2 border">${user.email}</td>
+                                        <td class="p-2 border">
+                                            <c:forEach var="role" items="${roles}">
+                                                <c:if test="${role.id == user.roleId}">
+                                                    ${role.name}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
+
+                                        <td class="p-2 border flex gap-2">
+                                            <form action="UserServlet" method="POST">
+                                                <input type="hidden" name="_method" value="PUT">
+                                                <input type="hidden" name="action" value="update">
+                                                <input type="hidden" name="userId" value="${user.id}">
+                                                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-700">
+                                                    Editar
+                                                </button>
+                                            </form>
+                                            <form action="UserServlet" method="POST">
+                                                <input type="hidden" name="_method" value="PUT">
+                                                <input type="hidden" name="action" value="darDeBaja">
+                                                <input type="hidden" name="userId" value="${user.id}">
+                                                <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-red-700">
+                                                    dar de baja
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -149,6 +176,35 @@
             </footer>
 
         </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has("success")) {
+                    Swal.fire({
+                        title: "¡Éxito!",
+                        text: "Usuario guardado correctamente.",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        // Limpiar la URL después de cerrar el SweetAlert
+                        window.history.replaceState(null, null, window.location.pathname + "?view=create");
+                    });
+                }
+                if (urlParams.has("enable")) {
+                    Swal.fire({
+                        title: "¡Éxito!",
+                        text: "dado de baja con exito",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        // Limpiar la URL después de cerrar el SweetAlert
+                        window.history.replaceState(null, null, window.location.pathname + "?view=list");
+                    });
+                }
+            });
+        </script>
+
 
     </body>
 </html>
