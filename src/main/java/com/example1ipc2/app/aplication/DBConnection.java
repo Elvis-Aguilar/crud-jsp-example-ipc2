@@ -13,6 +13,8 @@ public class DBConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/db_crud_user?useSSL=false&serverTimezone=UTC";
     private static final String USER = "example1JSP";
     private static final String PASSWORD = "example123";
+    
+    private static Connection connection;
 
     static {
         try {
@@ -22,8 +24,16 @@ public class DBConnection {
         }
     }
 
+    private DBConnection() {}
+
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        if (connection == null || connection.isClosed()) {
+            synchronized (DBConnection.class) {
+                if (connection == null || connection.isClosed()) {
+                    connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                }
+            }
+        }
+        return connection;
     }
-    
 }

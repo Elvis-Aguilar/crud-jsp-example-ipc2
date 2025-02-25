@@ -1,11 +1,11 @@
 package com.example1ipc2.app.controller;
 
+import com.example1ipc2.app.aplication.Encript;
 import com.example1ipc2.app.model.RoleModel;
 import com.example1ipc2.app.model.UserModel;
 import com.example1ipc2.app.persistence.RoleDAO;
 import com.example1ipc2.app.persistence.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 
 /**
@@ -27,6 +25,7 @@ public class UserServlet extends HttpServlet {
 
     private UserDAO userDAO = new UserDAO();
     private RoleDAO roleDAO = new RoleDAO();
+    private final Encript encript = new Encript();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -69,8 +68,10 @@ public class UserServlet extends HttpServlet {
         String dpi = request.getParameter("dpi");
         String roleId = request.getParameter("rolId");
         String password = request.getParameter("password");
+        
+        String passwordEncript = this.encript.ecnode(password);
 
-        UserModel userForm = new UserModel(name, email, adress, dpi, password, Integer.valueOf(roleId));
+        UserModel userForm = new UserModel(name, email, adress, dpi, passwordEncript, Integer.valueOf(roleId));
 
         try {
             this.userDAO.insert(userForm);

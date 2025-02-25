@@ -8,7 +8,7 @@ import java.util.List;
  * @author elvis
  */
 public abstract class CrudDAO<T> {
-
+    
     public abstract T insert(T entity) throws SQLException;
     public abstract T findById(Integer id) throws SQLException;
     public abstract List<T> findAll() throws SQLException;
