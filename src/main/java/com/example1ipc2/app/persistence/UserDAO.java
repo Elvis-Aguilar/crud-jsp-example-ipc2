@@ -36,7 +36,9 @@ public class UserDAO extends CrudDAO<UserModel> {
                     }
                 }
             }
+
         }
+
         return entity;
     }
 

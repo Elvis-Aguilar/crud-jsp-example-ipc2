@@ -13,11 +13,13 @@
         RequestDispatcher dispatcher = request.getRequestDispatcher("RoleServlet");
         dispatcher.forward(request, response);
     }
-
+    
     if ("list".equals(view) && request.getAttribute("users") == null) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("UserServlet");
         dispatcher.forward(request, response);
     }
+
+
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

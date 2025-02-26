@@ -1,4 +1,4 @@
-
+    
 package com.example1ipc2.app.persistence;
 
 import com.example1ipc2.app.aplication.DBConnection;
@@ -61,7 +61,6 @@ public class RoleDAO extends CrudDAO<RoleModel> {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                System.out.println(rs.getString("role_name"));
                 roles.add(new RoleModel(rs.getInt("id"), rs.getString("role_name"), rs.getString("description")));
             }
         }
@@ -84,7 +83,12 @@ public class RoleDAO extends CrudDAO<RoleModel> {
 
     @Override
     public void delete(Integer id) throws SQLException {
-        // TODO: logica para eliminar roles
+        String sql = "DELETE FROM role WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
     }
 
 }
