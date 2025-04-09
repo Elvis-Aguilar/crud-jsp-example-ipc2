@@ -1,0 +1,67 @@
+<main class="flex-1 px-4">
+    <h1 class="text-2xl font-bold text-center mt-6">Formulario para crear usuarios</h1>
+    <form [formGroup]="postForm"
+        class="max-w-3xl mx-auto bg-base-100 p-6 shadow-lg rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="label"><span class="label-text">Nombre</span></label>
+            <input type="text" class="input input-bordered w-full" placeholder="nombre del usuario"
+                formControlName="name" required />
+        </div>
+
+        <div>
+            <label class="label"><span class="label-text">Email</span></label>
+            <input type="email" class="input input-bordered w-full" placeholder="ejemplo@cunoc.edu.gt"
+                formControlName="email" required />
+        </div>
+
+        <div>
+            <label class="label"><span class="label-text">Direccion</span></label>
+            <input type="text" class="input input-bordered w-full" placeholder="Zona 15 XX" formControlName="address"
+                required />
+        </div>
+
+
+        <div>
+            <label class="label"><span class="label-text">DPI</span></label>
+            <input type="text" class="input input-bordered w-full" placeholder="13 digitos" formControlName="dpi"
+                required />
+        </div>
+
+        <!-- Select 1 -->
+        <div>
+            <label class="label"><span class="label-text">Tiempo vigencia del anuncio</span></label>
+            <select class="select select-bordered w-full" formControlName="roleId" required>
+                @for (item of roles; track $index) {
+                <option value={{item.id}}>{{item.name}}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="label"><span class="label-text">password</span></label>
+            <input type="password" class="input input-bordered w-full" placeholder="xxxx" formControlName="password"
+                required />
+        </div>
+
+        <div class="md:col-span-2">
+            <button class="btn btn-primary w-full" (click)="createUser()">Crear usuario</button>
+        </div>
+
+    </form>
+
+</main>
+
+
+<!-- Modal de exitosa -->
+<dialog #modal1 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="messageModal"
+        [className]="'text-purple-700 text-lg'">
+    </app-modal-msg>
+</dialog>
+
+<!-- Modal de  fallida-->
+<dialog #modal2 id="my_modal_1" class="modal">
+    <app-modal-msg [title]="titleModal" [content]="messageModal"
+        [className]="'text-red-700 text-lg'">
+    </app-modal-msg>
+</dialog>
