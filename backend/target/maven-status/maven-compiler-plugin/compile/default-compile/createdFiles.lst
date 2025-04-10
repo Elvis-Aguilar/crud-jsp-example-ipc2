@@ -1,7 +1,7 @@
 com/example1ipc2/app/model/UserModel.class
 com/example1ipc2/app/aplication/Encript.class
-com/example1ipc2/app/persistence/UserDAO.class
 com/example1ipc2/app/aplication/DBConnection.class
+com/example1ipc2/app/persistence/UserDAO.class
 com/example1ipc2/app/controller/UserServlet.class
 com/example1ipc2/app/controller/RoleServlet.class
 com/example1ipc2/app/model/RoleModel.class

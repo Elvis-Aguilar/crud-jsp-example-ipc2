@@ -1,3 +1,6 @@
 !**/target/
 /target/
 
+/backend/.idea/
+
+/backend/target/
