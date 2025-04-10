@@ -10,4 +10,5 @@ export class ApiConfigService {
     /**users */
     API_USERS = `${this.API_BASE}/areaAdmin/users`;
     API_ROLES = `${this.API_BASE}/areaAdmin/roles`;
+    API_REPORTS = `${this.API_BASE}/areaAdmin/reports`;
 }

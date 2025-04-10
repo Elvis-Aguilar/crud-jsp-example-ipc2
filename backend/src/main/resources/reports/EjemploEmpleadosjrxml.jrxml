@@ -1,0 +1,79 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="EjemploEmpleadosjrxml" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a6c84a26-78ee-466c-a497-da82b26dc67b">
+	<parameter name="LOGO" class="java.io.InputStream"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="role" class="java.lang.String"/>
+	<variable name="TotalEmpleados" calculation="Count" class="java.lang.Integer">
+		<description><![CDATA[Cantidad total de empleados]]></description>
+		<expression><![CDATA[$F{id}]]></expression>
+	</variable>
+	<background splitType="Stretch"/>
+	<title height="84" splitType="Stretch">
+		<element kind="staticText" uuid="df87b091-d474-448f-86be-ad4a457b74e0" x="140" y="9" width="280" height="70" fontSize="19.0" hTextAlign="Center">
+			<text><![CDATA[REPORTE DE EMPLEADOS DE EJEMPLO S.A]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="image" uuid="f40e0004-5bb7-4f93-9caf-baaa8d3d7fdd" x="10" y="10" width="70" height="69" scaleImage="RetainShape" evaluationTime="Report" linkType="None" linkTarget="Self" hImageAlign="Center">
+			<expression><![CDATA[$P{LOGO}]]></expression>
+		</element>
+	</title>
+	<pageHeader height="53" splitType="Stretch">
+		<element kind="staticText" uuid="fcfb8b83-e2f1-47d2-9515-3f538f57346b" x="10" y="10" width="550" height="43" fontSize="12.0" hTextAlign="Justified">
+			<text><![CDATA[A continuacion se presentan el reporte de todos los empleados actualmente laboran en la empresa Ejemplo S.A, tomando en cuenta los distintos departamentos con los que contamos]]></text>
+		</element>
+	</pageHeader>
+	<columnHeader height="58" splitType="Stretch">
+		<element kind="staticText" uuid="bb315291-4803-463e-820c-11389d506158" x="0" y="7" width="80" height="46" forecolor="#7D5A07" markup="none" fontSize="16.0">
+			<text><![CDATA[Id Usuario]]></text>
+		</element>
+		<element kind="staticText" uuid="842db21b-7837-43dc-a374-29ce769bf3f8" x="100" y="0" width="80" height="46" forecolor="#7D5A07" fontSize="16.0">
+			<text><![CDATA[Nombre]]></text>
+		</element>
+		<element kind="staticText" uuid="d1d7764c-41f9-4e8c-b22e-5139b47133aa" x="232" y="0" width="90" height="46" forecolor="#7D5A07" fontSize="16.0">
+			<text><![CDATA[Correo Electronico]]></text>
+		</element>
+		<element kind="staticText" uuid="f9cb161d-44de-4617-915b-6fe64b19f745" x="360" y="0" width="90" height="46" forecolor="#7D5A07" fontSize="16.0">
+			<text><![CDATA[Direccion]]></text>
+		</element>
+		<element kind="staticText" uuid="b31c1f45-84b3-43a8-8099-c9d39c1cd213" x="480" y="0" width="90" height="46" forecolor="#7D5A07" fontSize="16.0">
+			<text><![CDATA[Puesto]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="47" splitType="Stretch">
+			<element kind="frame" uuid="f33ca74c-dac8-4fa2-89cb-c78fc2efb04a" x="0" y="0" width="575" height="45">
+				<element kind="textField" uuid="e191154e-19ef-4e28-b942-af2a23ffb798" x="0" y="0" width="80" height="30" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$F{id}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e904afb9-76ca-4659-8596-01ced8ff64d0"/>
+				</element>
+				<element kind="textField" uuid="0cd39466-1a35-47ea-ba6b-54b0587899d8" x="100" y="0" width="90" height="30" fontSize="14.0" bold="false" hTextAlign="Center">
+					<expression><![CDATA[$F{name}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d1bff462-d70c-43d0-a9f7-f2145559c57b"/>
+				</element>
+				<element kind="textField" uuid="10cfbd65-c3e5-4232-bea7-8f0f6a319261" x="233" y="0" width="100" height="30" fontSize="16.0" textAdjust="StretchHeight" bold="false" hTextAlign="Center">
+					<expression><![CDATA[$F{email}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b952d33a-2b05-4591-94e8-f49ce6d6c27f"/>
+				</element>
+				<element kind="textField" uuid="182695d5-32bc-4106-be4e-e0ac793dcc5d" x="360" y="0" width="100" height="30" fontSize="16.0" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$F{address}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="46a17644-8e2c-4c98-bf35-b2cd31c7bd99"/>
+				</element>
+				<element kind="textField" uuid="0addd6d7-e936-4ab5-b89e-30e899bbdfb0" x="480" y="0" width="90" height="30" fontSize="16.0" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$F{role}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="034539e8-d56a-4018-b3c5-c188de0caeaf"/>
+				</element>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="61" splitType="Stretch">
+		<element kind="textField" uuid="83581d84-dbf1-4298-b600-a49bc39f209f" x="0" y="0" width="380" height="40" markup="none" fontSize="16.0" textAdjust="StretchHeight" hTextAlign="Left">
+			<expression><![CDATA["Total de emplados:" +  $V{TotalEmpleados}]]></expression>
+		</element>
+	</summary>
+</jasperReport>

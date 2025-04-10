@@ -46,7 +46,7 @@ public class RoleDAO extends CrudDAO<RoleModel> {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new RoleModel(rs.getInt("id"), rs.getString("name_role"), rs.getString("description"));
+                    return new RoleModel(rs.getInt("id"), rs.getString("role_name"), rs.getString("description"));
                 }
             }
         }
