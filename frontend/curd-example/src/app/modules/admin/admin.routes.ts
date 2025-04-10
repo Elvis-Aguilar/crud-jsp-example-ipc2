@@ -9,6 +9,7 @@ export const ADMIN_ROUTES: Routes = [
             { path: 'management/reports', loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent) },
             { path: 'management/users', loadComponent: () => import('./pages/list-users/list-users.component').then(m => m.ListUsersComponent) }, 
             { path: 'management/user/create', loadComponent: () => import('./pages/form-create-user/form-create-user.component').then(m => m.FormCreateUserComponent) }, 
+            { path: 'management/user/edit', loadComponent: () => import('./pages/form-create-user/form-create-user.component').then(m => m.FormCreateUserComponent) }, 
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' } 
         ]
     },

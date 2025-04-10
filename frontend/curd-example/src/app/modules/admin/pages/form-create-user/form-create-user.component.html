@@ -43,10 +43,16 @@
                 required />
         </div>
 
+        @if (userUpdate) {
+
+        <div class="md:col-span-2">
+            <button class="btn btn-secondary w-full" (click)="updateUser()">Editar</button>
+        </div>
+        }@else {
         <div class="md:col-span-2">
             <button class="btn btn-primary w-full" (click)="createUser()">Crear usuario</button>
         </div>
-
+        }
     </form>
 
 </main>
@@ -54,14 +60,12 @@
 
 <!-- Modal de exitosa -->
 <dialog #modal1 id="my_modal_1" class="modal">
-    <app-modal-msg [title]="titleModal" [content]="messageModal"
-        [className]="'text-purple-700 text-lg'">
+    <app-modal-msg [title]="titleModal" [content]="messageModal" [className]="'text-purple-700 text-lg'">
     </app-modal-msg>
 </dialog>
 
 <!-- Modal de  fallida-->
 <dialog #modal2 id="my_modal_1" class="modal">
-    <app-modal-msg [title]="titleModal" [content]="messageModal"
-        [className]="'text-red-700 text-lg'">
+    <app-modal-msg [title]="titleModal" [content]="messageModal" [className]="'text-red-700 text-lg'">
     </app-modal-msg>
 </dialog>
