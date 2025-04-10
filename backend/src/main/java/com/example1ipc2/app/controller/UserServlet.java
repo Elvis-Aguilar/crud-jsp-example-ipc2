@@ -22,11 +22,10 @@ import javax.servlet.RequestDispatcher;
  *
  * @author elvis
  */
-@WebServlet(urlPatterns = "/areaAdmin/users")
+@WebServlet(urlPatterns = "/areaAdmin/users/*")
 public class UserServlet extends HttpServlet {
 
-    private UserDAO userDAO = new UserDAO();
-    private RoleDAO roleDAO = new RoleDAO();
+    private final UserDAO userDAO = new UserDAO();
     private final Encript encript = new Encript();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -82,26 +81,40 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
 
-        String action = request.getParameter("action");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        if ("darDeBaja".equals(action)) {
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            try {
-                UserModel user = userDAO.findById(userId);
-                if (user != null) {
-                    user.setState("DISABLED");
-                    userDAO.update(user);
-                    response.sendRedirect("adminPersonal.jsp?view=list&enable=true");
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+        try {
+            // Obtener el ID de la URL: /users/{id}
+            String pathInfo = request.getPathInfo(); 
+            if (pathInfo == null || pathInfo.equals("/")) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID no proporcionado en la URL");
+                return;
             }
-        } else {
-            processRequest(request, response);
-        }
 
+            int userId = Integer.parseInt(pathInfo.substring(1)); // Eliminar el "/"
+
+            // Obtener el estado desde el body
+            BufferedReader reader = request.getReader();
+            UserModel userUpdate = new com.google.gson.Gson().fromJson(reader, UserModel.class);
+            
+            UserModel user = userDAO.findById(userId);
+            if (user == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado");
+                return;
+            }
+
+            userUpdate.setId(userId);
+                        
+            userDAO.update(userUpdate);
+
+            response.getWriter().write("{\"message\":\"Usuario actualizado\"}");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al actualizar usuario");
+        }
     }
 
     @Override

@@ -18,3 +18,7 @@ export interface Role {
 export type CreateUser = Omit<User, 'id' | 'createAt'> & {
     password: string;
 };
+
+export type UpdatUser = Omit<User, 'id' | 'createAt'> & {
+    password: string;
+};

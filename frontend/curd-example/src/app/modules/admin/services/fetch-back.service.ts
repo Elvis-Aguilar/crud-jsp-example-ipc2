@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ApiConfigService } from '../../../shared/services/api-config.service';
 import { Observable } from 'rxjs';
-import { CreateUser, Role, User } from '../models/user.interface';
+import { CreateUser, Role, UpdatUser, User } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +27,9 @@ export class FetchBackService {
 
   createUser(newUser: CreateUser): Observable<void>{
     return this._http.post<void>(`${this.API_USERS}`,newUser)
+  }
+
+  updateStateUser(us: User | UpdatUser, idUser:number): Observable<void>{
+    return this._http.put<void>(`${this.API_USERS}/${idUser}`,us)
   }
 }
